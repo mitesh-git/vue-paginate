@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import App from './App'
-import VuePaginate from 'vue-paginate'
+import VuePaginate from 'vue-paignate-api'
 
 Vue.use(VuePaginate)
 

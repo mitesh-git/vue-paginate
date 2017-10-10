@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <h1>Vue-Paginate v3.0</h1>
+    <h1>vue-paignate-api v1.0</h1>
     <paginate name="items" :list="items" :found-items="foundItems" class="paginate-list">
       <li v-for="item in paginated('items')">
         {{ item }}

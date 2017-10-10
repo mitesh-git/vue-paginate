@@ -38,7 +38,7 @@ module.exports = {
     fallback: [path.join(__dirname, '../node_modules')],
     alias: {
       'vue': 'vue/dist/vue.common.js',
-      'vue-paginate': path.join(__dirname, 'src/index')
+      'vue-paignate-api': path.join(__dirname, 'src/index')
     }
   },
 
