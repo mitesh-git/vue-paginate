@@ -22,7 +22,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/TahaSh/vue-paginate.git"
+    "url": "https://github.com/mitesh-git/vue-paginate.git"
   },
   "keywords": [
     "paginate",
@@ -31,10 +31,15 @@
     "chunk",
     "navigate",
     "slice",
-    "vue"
+    "vue",
+    "api",
+    "vuex"
   ],
   "dependencies": {
-    "vue": "2.3.3"
+    "axios": "^0.16.2",
+    "cors": "^2.8.4",
+    "vue": "2.3.3",
+    "watch": "^1.0.2"
   },
   "devDependencies": {
     "babel-core": "^6.21.0",
@@ -78,6 +83,6 @@
     "webpack": "^1.14.0",
     "webpack-dev-server": "^1.16.2"
   },
-  "author": "Taha Shashtari",
+  "author": "Taha Shashtari, Mitesh Dheman",
   "license": "MIT"
 }

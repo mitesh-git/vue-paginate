@@ -11,9 +11,16 @@ export default {
       type: Array,
       required: true
     },
+    foundItems:{
+      type: Number,
+      default: 1,
+      validator (value) {
+        return value > 0
+      }
+    },
     per: {
       type: Number,
-      default: 3,
+      default: 2,
       validator (value) {
         return value > 0
       }
@@ -25,7 +32,8 @@ export default {
   },
   data () {
     return {
-      initialListSize: this.list.length
+      //initialListSize: this.list.length
+      initialListSize: this.foundItems
     }
   },
   computed: {
@@ -40,9 +48,11 @@ export default {
       }
     },
     pageItemsCount () {
-      const numOfItems = this.list.length
-      const first = this.currentPage * this.per + 1
-      const last = Math.min((this.currentPage * this.per) + this.per, numOfItems)
+      //const numOfItems = this.list.length
+      const numOfItems  = this.foundItems
+      const first       = this.currentPage * this.per + 1
+      const last        = Math.min((this.currentPage * this.per) + this.per, numOfItems)
+      
       return `${first}-${last} of ${numOfItems}`
     }
   },
@@ -61,7 +71,7 @@ export default {
       this.paginateList()
     },
     list () {
-      if (this.initialListSize !== this.list.length) {
+      if (this.initialListSize !== this.foundItems) {
         // On list change, refresh the paginated list only if list size has changed
         this.currentPage = 0
       }
@@ -75,11 +85,11 @@ export default {
   methods: {
     paginateList () {
       const index = this.currentPage * this.per
-      const paginatedList = this.list.slice(index, index + this.per)
+      const paginatedList = this.list; //this.list.slice(index, index + this.per)
       this.$parent.paginate[this.name].list = paginatedList
     },
     goToPage (page) {
-      const maxPage = Math.ceil(this.list.length / this.per)
+      const maxPage = Math.ceil(this.foundItems / this.per)
       if (page > maxPage) {
         warn(`You cannot go to page ${page}. The last page is ${maxPage}.`, this.$parent)
         return

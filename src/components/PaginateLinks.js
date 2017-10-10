@@ -59,11 +59,13 @@ export default {
     currentPage: {
       get () {
         if (this.$parent.paginate[this.for]) {
+
           return this.$parent.paginate[this.for].page
         }
       },
       set (page) {
         this.$parent.paginate[this.for].page = page
+        this.$emit('clickPageNumber') 
       }
     }
   },
@@ -87,7 +89,7 @@ export default {
       this.updateListOfPages()
     })
   },
-  watch: {
+  currentPage: {
     '$parent.paginate': {
       handler () {
         this.updateListOfPages()
@@ -101,19 +103,18 @@ export default {
   methods: {
     updateListOfPages () {
       this.target = getTargetPaginateComponent(this.$parent.$children, this.for)
-      if (!this.target) {
+        if (!this.target) {
         if (this.async) return
         warn(`<paginate-links for="${this.for}"> can't be used without its companion <paginate name="${this.for}">`, this.$parent)
         warn(`To fix that issue you may need to use :async="true" on <paginate-links> component to allow for asyncronous rendering`, this.$parent, 'warn')
         return
       }
-      this.numberOfPages = Math.ceil(this.target.list.length / this.target.per)
+      this.numberOfPages = Math.ceil(this.target.foundItems/ this.target.per)
       this.listOfPages = getListOfPageNumbers(this.numberOfPages)
     }
   },
   render (h) {
     if (!this.target && this.async) return null
-
     let links = this.simple
       ? getSimpleLinks(this, h)
       : this.limit > 1
@@ -141,11 +142,13 @@ function getFullLinks (vm, h) {
   const allLinks = vm.showStepLinks
     ? [vm.stepLinks.prev, ...vm.listOfPages, vm.stepLinks.next]
     : vm.listOfPages
+
   return allLinks.map(link => {
     const data = {
       on: {
         click: (e) => {
           e.preventDefault()
+
           vm.currentPage = getTargetPageForLink(
             link,
             vm.limit,
@@ -173,7 +176,7 @@ function getLimitedLinks (vm, h) {
   let limitedLinks = new LimitedLinksGenerator(
     vm.listOfPages,
     vm.currentPage,
-    vm.limit,
+    vm.limit, 
     vm.stepLinks
   ).generate()
 
@@ -182,7 +185,6 @@ function getLimitedLinks (vm, h) {
     : limitedLinks
 
   const limitedLinksMetadata = getLimitedLinksMetadata(limitedLinks)
-
   return limitedLinks.map((link, index) => {
     const data = {
       on: {
