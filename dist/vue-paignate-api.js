@@ -1,5 +1,5 @@
 /**
- * vue-paignate-api v1.0.4
+ * vue-paignate-api v1.0.5
  * (c) 2017 Taha Shashtari & Mitesh Dheman
  * @license MIT
  */
