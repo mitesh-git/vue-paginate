@@ -1,6 +1,6 @@
 /**
- * vue-paginate v3.5.1
- * (c) 2017 Taha Shashtari
+ * vue-paignate-api v1.0.3
+ * (c) 2017 Taha Shashtari & Mitesh Dheman
  * @license MIT
  */
 (function (global, factory) {
@@ -55,10 +55,17 @@
         type: Array,
         required: true
       },
+      foundItems:{
+        type: Number,
+        default: 1,
+        validator: function validator (value) {
+          return value > 0
+        }
+      },
       per: {
         type: Number,
-        default: 3,
-        validator: function validator (value) {
+        default: 2,
+        validator: function validator$1 (value) {
           return value > 0
         }
       },
@@ -69,7 +76,8 @@
     },
     data: function data () {
       return {
-        initialListSize: this.list.length
+        //initialListSize: this.list.length
+        initialListSize: this.foundItems
       }
     },
     computed: {
@@ -84,9 +92,11 @@
         }
       },
       pageItemsCount: function pageItemsCount () {
-        var numOfItems = this.list.length
-        var first = this.currentPage * this.per + 1
-        var last = Math.min((this.currentPage * this.per) + this.per, numOfItems)
+        //const numOfItems = this.list.length
+        var numOfItems  = this.foundItems
+        var first       = this.currentPage * this.per + 1
+        var last        = Math.min((this.currentPage * this.per) + this.per, numOfItems)
+        
         return (first + "-" + last + " of " + numOfItems)
       }
     },
@@ -105,7 +115,7 @@
         this.paginateList()
       },
       list: function list () {
-        if (this.initialListSize !== this.list.length) {
+        if (this.initialListSize !== this.foundItems) {
           // On list change, refresh the paginated list only if list size has changed
           this.currentPage = 0
         }
@@ -119,11 +129,11 @@
     methods: {
       paginateList: function paginateList () {
         var index = this.currentPage * this.per
-        var paginatedList = this.list.slice(index, index + this.per)
+        var paginatedList = this.list; //this.list.slice(index, index + this.per)
         this.$parent.paginate[this.name].list = paginatedList
       },
       goToPage: function goToPage (page) {
-        var maxPage = Math.ceil(this.list.length / this.per)
+        var maxPage = Math.ceil(this.foundItems / this.per)
         if (page > maxPage) {
           warn(("You cannot go to page " + page + ". The last page is " + maxPage + "."), this.$parent)
           return
@@ -6724,11 +6734,13 @@
       currentPage: {
         get: function get () {
           if (this.$parent.paginate[this.for]) {
+
             return this.$parent.paginate[this.for].page
           }
         },
         set: function set (page) {
           this.$parent.paginate[this.for].page = page
+          this.$emit('clickPageNumber') 
         }
       }
     },
@@ -6754,7 +6766,7 @@
         this$1.updateListOfPages()
       })
     },
-    watch: {
+    currentPage: {
       '$parent.paginate': {
         handler: function handler () {
           this.updateListOfPages()
@@ -6768,13 +6780,13 @@
     methods: {
       updateListOfPages: function updateListOfPages () {
         this.target = getTargetPaginateComponent(this.$parent.$children, this.for)
-        if (!this.target) {
+          if (!this.target) {
           if (this.async) { return }
           warn(("<paginate-links for=\"" + (this.for) + "\"> can't be used without its companion <paginate name=\"" + (this.for) + "\">"), this.$parent)
           warn("To fix that issue you may need to use :async=\"true\" on <paginate-links> component to allow for asyncronous rendering", this.$parent, 'warn')
           return
         }
-        this.numberOfPages = Math.ceil(this.target.list.length / this.target.per)
+        this.numberOfPages = Math.ceil(this.target.foundItems/ this.target.per)
         this.listOfPages = getListOfPageNumbers(this.numberOfPages)
       }
     },
@@ -6782,7 +6794,6 @@
       var this$1 = this;
 
       if (!this.target && this.async) { return null }
-
       var links = this.simple
         ? getSimpleLinks(this, h)
         : this.limit > 1
@@ -6810,11 +6821,13 @@
     var allLinks = vm.showStepLinks
       ? [vm.stepLinks.prev ].concat( vm.listOfPages, [vm.stepLinks.next])
       : vm.listOfPages
+
     return allLinks.map(function (link) {
       var data = {
         on: {
           click: function (e) {
             e.preventDefault()
+
             vm.currentPage = getTargetPageForLink(
               link,
               vm.limit,
@@ -6842,7 +6855,7 @@
     var limitedLinks = new LimitedLinksGenerator(
       vm.listOfPages,
       vm.currentPage,
-      vm.limit,
+      vm.limit, 
       vm.stepLinks
     ).generate()
 
@@ -6851,7 +6864,6 @@
       : limitedLinks
 
     var limitedLinksMetadata = getLimitedLinksMetadata(limitedLinks)
-
     return limitedLinks.map(function (link, index) {
       var data = {
         on: {

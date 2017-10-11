@@ -11,14 +11,14 @@ const replaceConfig = {
 
 module.exports = {
   entry: 'src/index.js',
-  dest: 'dist/vue-paignate-api.js',
+  dest: '../../dist/vue-paignate-api.js',
   format: 'umd',
   moduleName: 'VuePaginate',
   plugins: [replace(replaceConfig), node(), cjs(), buble()],
   banner:
 `/**
  * vue-paignate-api v${version}
- * (c) ${new Date().getFullYear()} Taha Shashtari
+ * (c) ${new Date().getFullYear()} Taha Shashtari & Mitesh Dheman
  * @license MIT
  */`
 }
