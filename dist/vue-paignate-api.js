@@ -1,12 +1,12 @@
 /**
- * vue-paignate-api v1.0.3
+ * vue-paignate-api v1.0.4
  * (c) 2017 Taha Shashtari & Mitesh Dheman
  * @license MIT
  */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
-  (global.VuePaginate = factory());
+  (global.VuePaginateApi = factory());
 }(this, function () { 'use strict';
 
   var warn = function () {}
@@ -7034,9 +7034,9 @@
     }, {})
   }
 
-  var vuePaginate = {}
+  var vuePaginateApi = {}
 
-  vuePaginate.install = function (Vue) {
+  vuePaginateApi.install = function (Vue) {
     Vue.mixin({
       created: function created () {
         if (this.paginate !== 'undefined' && this.paginate instanceof Array) {
@@ -7058,9 +7058,9 @@
   }
 
   if (typeof window !== 'undefined' && window.Vue) {
-    window.Vue.use(vuePaginate)
+    window.Vue.use(vuePaginateApi)
   }
 
-  return vuePaginate;
+  return vuePaginateApi;
 
 }));

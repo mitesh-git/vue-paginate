@@ -10,10 +10,10 @@ const replaceConfig = {
 }
 
 module.exports = {
-  entry: 'src/index.js',
-  dest: '../../dist/vue-paignate-api.js',
+  entry:'src/index.js',
+  dest: 'dist/vue-paignate-api.js',
   format: 'umd',
-  moduleName: 'VuePaginate',
+  moduleName: 'VuePaginateApi',
   plugins: [replace(replaceConfig), node(), cjs(), buble()],
   banner:
 `/**

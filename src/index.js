@@ -3,9 +3,9 @@ import PaginateLinks          from './components/PaginateLinks'
 import paginateDataGenerator  from './util/paginateDataGenerator'
 import { warn } from './util/debug'
 
-const vuePaginate = {}
+const vuePaginateApi = {}
 
-vuePaginate.install = function (Vue) {
+vuePaginateApi.install = function (Vue) {
   Vue.mixin({
     created () {
       if (this.paginate !== 'undefined' && this.paginate instanceof Array) {
@@ -27,7 +27,7 @@ vuePaginate.install = function (Vue) {
 }
 
 if (typeof window !== 'undefined' && window.Vue) {
-  window.Vue.use(vuePaginate)
+  window.Vue.use(vuePaginateApi)
 }
 
-export default vuePaginate
+export default vuePaginateApi
