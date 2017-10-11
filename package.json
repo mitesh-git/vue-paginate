@@ -1,6 +1,6 @@
-  {
+    {
   "name": "vue-paginate-api",
-  "version": "1.0",
+  "version": "1.0.0",
   "description": "A simple vue.js plugin to paginate data with api",
   "main": "dist/vue-paginate-api.js",
   "scripts": {
